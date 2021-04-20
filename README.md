@@ -4,7 +4,3 @@ In diese Readme.md gehört eine Beschreibung des Projektes und grundlegende Info
 (z.B. eine Installationsanleitung etc.)
 
 ###Authors:
-* R. Karacalar
-* T. Mühlhaus
-* A. Spitzbarth
-* S. Zaffiro
