@@ -5,3 +5,4 @@ In diese Readme.md gehört eine Beschreibung des Projektes und grundlegende Info
 
 ###Authors:
 * S. Zaffiro (~tigger-3)
+* T. Muehlhaus 
