@@ -4,5 +4,5 @@ In diese Readme.md gehört eine Beschreibung des Projektes und grundlegende Info
 (z.B. eine Installationsanleitung etc.)
 
 ###Authors:
+* T. Muehlhaus
 * S. Zaffiro (~tigger-3)
-* T. Muehlhaus 
