@@ -5,5 +5,5 @@ In diese Readme.md gehört eine Beschreibung des Projektes und grundlegende Info
 
 ###Authors:
 * T. Muehlhaus
-* S. Zaffiro (~tigger-3)
 * A. Spitzbarth
+* S. Zaffiro (~tigger-3)
