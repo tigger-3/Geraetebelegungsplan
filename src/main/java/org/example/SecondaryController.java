@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
 
 public class SecondaryController {
@@ -35,6 +36,9 @@ public class SecondaryController {
                 if(termineDerWoche[i][j] == null) {
                     //termin frei
                     currentButton = new Button("buchen");
+                    currentButton.setStyle("fx-background-color: #7BB6F1");
+                    DropShadow s = new DropShadow();
+                    currentButton.setEffect(s);
                     int column = i;
                     int row = j;
                     currentButton.onActionProperty().setValue((event) -> onButtonClick(column, row));//TODO add listener
