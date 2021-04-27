@@ -18,6 +18,10 @@ public class Controller {
         selectedGerät = null;
     }
 
+    public boolean isTerminFromCurrentUser(Termin termin){
+        return termin.Benutzer.Kundenummer == this.angemeldeterUser.Kundenummer;
+    }
+
     public void selectGerät(Gerät newSelection){
         selectedGerät = newSelection; //TODO update termine
     }

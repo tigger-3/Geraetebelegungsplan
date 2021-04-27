@@ -40,7 +40,15 @@ public class SecondaryController {
                     currentButton.onActionProperty().setValue((event) -> onButtonClick(column, row));//TODO add listener
                 }else{
                     //termin vorhanden
-                    currentButton = new Button("stornieren");
+                    if(controller.isTerminFromCurrentUser(termineDerWoche[i][j])){
+                        //termin von angemeldetem user
+                        currentButton = new Button("stornieren");
+                    }
+                    else{
+                        //termin NICHT von angemeldetem user
+                        currentButton = new Button("belegt");
+                        currentButton.setDisable(true);
+                    }
                 }
                 currentButton.prefHeight(33);
                 currentButton.prefWidth(71);
