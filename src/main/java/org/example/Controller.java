@@ -11,10 +11,10 @@ public class Controller {
     private Gerät[] geraeteListe;
     private Gerät selectedGerät;
 
-    public Controller(User angemeldeterUser, Gerät[] geraeteListe) {
+    public Controller(User angemeldeterUser) {
         this.angemeldeterUser = angemeldeterUser;
         termineDerWoche = new Termin[7][20];
-        this.geraeteListe = geraeteListe;
+        this.geraeteListe = new Gerät[0];
         selectedGerät = null;
     }
 

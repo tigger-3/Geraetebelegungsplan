@@ -10,7 +10,8 @@ import javafx.scene.layout.GridPane;
 
 public class SecondaryController {
 
-    private Controller controller = new Controller(null, new Gerät[0]);
+    private Controller controller = new Controller(null);
+
     @FXML
     private GridPane bookingGrid;
 
