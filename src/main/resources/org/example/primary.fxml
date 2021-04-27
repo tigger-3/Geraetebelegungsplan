@@ -13,6 +13,6 @@
       <TextField />
       <Label text="Passwort" />
       <PasswordField />
-      <Button mnemonicParsing="false" text="anmelden" />
+      <Button mnemonicParsing="false" onAction="#switchToSecondary" text="anmelden" />
    </children>
 </VBox>
