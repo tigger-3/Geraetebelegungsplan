@@ -38,6 +38,7 @@ public class SecondaryController {
         if(termin == null) {
             //termin frei
             currentButton = new Button("buchen");
+            currentButton.setStyle("-fx-background-color: #7BB6F1");
             currentButton.onActionProperty().setValue((event) -> {
                 //todo read date and time
                 Instant uhrzeit = Instant.parse("2021-04-28T09:00:00.00Z"); //YYYY-MM-DDTHH:mm:ss.msZ
@@ -50,7 +51,8 @@ public class SecondaryController {
             //termin vorhanden
             if(controller.isTerminFromCurrentUser(termin)){
                 //termin von angemeldetem user
-                currentButton = new Button("stornieren"); //todo add onaction
+                currentButton = new Button("stornieren");
+                currentButton.setStyle("-fx-background-color: #FD7B8A");
                 currentButton.onActionProperty().setValue((event) -> {
                     App.getMainController().terminStornieren(termin);
                     updateButton(null,i,j);
@@ -59,6 +61,7 @@ public class SecondaryController {
             else{
                 //termin NICHT von angemeldetem user
                 currentButton = new Button("belegt");
+                currentButton.setStyle("-fx-background-color: #99DFA1");
                 currentButton.setDisable(true);
             }
         }
