@@ -4,10 +4,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
+import java.time.temporal.TemporalUnit;
+import java.util.*;
 
 public class Controller {
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    private Calendar calendar = GregorianCalendar.getInstance();
+
     public User getAngemeldeterUser() {
         return angemeldeterUser;
     }
@@ -29,6 +36,11 @@ public class Controller {
     private OracleDB dbController;
 
     public Controller() {
+        calendar.set(calendar.DAY_OF_WEEK, calendar.MONDAY);
+        calendar.set(calendar.HOUR_OF_DAY,0);
+        calendar.set(calendar.MINUTE,0);
+        calendar.set(calendar.SECOND,0);
+        calendar.set(calendar.MILLISECOND,0);
         this.angemeldeterUser = null;
         termineDerWoche = new Termin[7][20];
         this.geraeteListe = new Gerät[0];
