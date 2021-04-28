@@ -52,7 +52,7 @@ public class SecondaryController {
             if(controller.isTerminFromCurrentUser(termin)){
                 //termin von angemeldetem user
                 currentButton = new Button("stornieren");
-                currentButton.setStyle("-fx-background-color: #FD7B8A");
+                currentButton.setStyle("-fx-background-color: #99DFA1");
                 currentButton.onActionProperty().setValue((event) -> {
                     App.getMainController().terminStornieren(termin);
                     updateButton(null,i,j);
@@ -61,7 +61,7 @@ public class SecondaryController {
             else{
                 //termin NICHT von angemeldetem user
                 currentButton = new Button("belegt");
-                currentButton.setStyle("-fx-background-color: #99DFA1");
+                currentButton.setStyle("-fx-background-color: #FD7B8A");
                 currentButton.setDisable(true);
             }
         }

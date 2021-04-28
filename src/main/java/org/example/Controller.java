@@ -51,7 +51,7 @@ public class Controller {
             return termin.Benutzer.Kundenummer == this.angemeldeterUser.Kundenummer;
         }
         else{
-            return false; //mock
+            return true; //mock
         }
     }
 
