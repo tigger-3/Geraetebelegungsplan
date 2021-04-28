@@ -36,7 +36,7 @@ public class SecondaryController {
                 if(termineDerWoche[i][j] == null) {
                     //termin frei
                     currentButton = new Button("buchen");
-                    currentButton.setStyle("fx-background-color: #7BB6F1");
+                    currentButton.setStyle("-fx-background-color: #7BB6F1");
                     DropShadow s = new DropShadow();
                     currentButton.setEffect(s);
                     int column = i;
@@ -47,11 +47,13 @@ public class SecondaryController {
                     if(controller.isTerminFromCurrentUser(termineDerWoche[i][j])){
                         //termin von angemeldetem user
                         currentButton = new Button("stornieren");
+                        currentButton.setStyle("-fx-background-color: #FD7B8A");
                     }
                     else{
                         //termin NICHT von angemeldetem user
                         currentButton = new Button("belegt");
                         currentButton.setDisable(true);
+                        currentButton.setStyle("-fx-background-color: #99DFA1");
                     }
                 }
                 currentButton.prefHeight(33);
