@@ -37,8 +37,6 @@ public class SecondaryController {
                     //termin frei
                     currentButton = new Button("buchen");
                     currentButton.setStyle("-fx-background-color: #7BB6F1");
-                    DropShadow s = new DropShadow();
-                    currentButton.setEffect(s);
                     int column = i;
                     int row = j;
                     currentButton.onActionProperty().setValue((event) -> onButtonClick(column, row));//TODO add listener
