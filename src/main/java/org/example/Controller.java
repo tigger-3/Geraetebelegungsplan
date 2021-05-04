@@ -145,7 +145,7 @@ public class Controller {
             return termin.Benutzer.Kundenummer == this.angemeldeterUser.Kundenummer;
         }
         else{
-            return true; //mock
+            return false; //if no user is logged in, he has not booked anything
         }
     }
 
