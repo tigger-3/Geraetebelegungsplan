@@ -17,6 +17,12 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
 
 public class SecondaryController {
+
+    @FXML
+    public void initialize(){
+        updateGeräteMenu();
+    }
+
     @FXML
     private GridPane bookingGrid;
     @FXML
