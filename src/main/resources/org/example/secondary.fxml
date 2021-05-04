@@ -7,11 +7,11 @@
    <top>
       <MenuBar prefWidth="659.0" BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="Geräte">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
+          <Menu fx:id="geraeteMenu" mnemonicParsing="false" text="Geräte">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#updateGeräteMenu" text="Geräte aktualisieren" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+               </items></Menu>
             <Menu mnemonicParsing="false" text="Export">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
