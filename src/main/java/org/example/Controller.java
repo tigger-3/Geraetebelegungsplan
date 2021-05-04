@@ -26,6 +26,11 @@ public class Controller {
     }
 
     private Termin[][] termineDerWoche;
+
+    public List<Gerät> getGeraeteListe() {
+        return geraeteListe;
+    }
+
     private List<Gerät> geraeteListe;
 
     public Gerät getSelectedGerät() {

@@ -1,20 +1,44 @@
 package org.example;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
 
 public class SecondaryController {
-
-    private Controller controller = new Controller(null);
-
     @FXML
     private GridPane bookingGrid;
+    @FXML
+    private Menu geraeteMenu;
+
+    private List<MenuItem> geräteMenuEinträge = new ArrayList<MenuItem>();
+
+    @FXML
+    private void updateGeräteMenu(){
+        for(MenuItem eintrag: geräteMenuEinträge){
+            geraeteMenu.getItems().remove(eintrag);
+            geräteMenuEinträge.remove(eintrag);
+        }
+
+        for(Gerät gerät: App.controller.getGeraeteListe()){
+            MenuItem eintrag = new MenuItem();
+            eintrag.setText(gerät.Gerätename + " (" + gerät.GeräteID + ")");
+            eintrag.onActionProperty().setValue((event) -> {
+                App.controller.selectGerät(gerät);
+                updateTermine();
+            });
+            geraeteMenu.getItems().add(eintrag);
+            geräteMenuEinträge.add(eintrag);
+        }
+    }
 
     private Button[][] terminButtons = new Button[7][20];
 
@@ -29,7 +53,7 @@ public class SecondaryController {
                 bookingGrid.getChildren().remove(terminButtons[i][j]);
             }
         }
-        Termin[][] termineDerWoche = controller.getTermineDerWoche();
+        Termin[][] termineDerWoche = App.controller.getTermineDerWoche();
         for(int i = 0; i < termineDerWoche.length; i++){
             for(int j = 0; j < termineDerWoche[i].length; j++){
                 Button currentButton;
@@ -42,7 +66,7 @@ public class SecondaryController {
                     currentButton.onActionProperty().setValue((event) -> onButtonClick(column, row));//TODO add listener
                 }else{
                     //termin vorhanden
-                    if(controller.isTerminFromCurrentUser(termineDerWoche[i][j])){
+                    if(App.controller.isTerminFromCurrentUser(termineDerWoche[i][j])){
                         //termin von angemeldetem user
                         currentButton = new Button("stornieren");
                         currentButton.setStyle("-fx-background-color: #FD7B8A");
