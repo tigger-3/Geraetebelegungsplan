@@ -70,9 +70,8 @@ public class SecondaryController {
             currentButton = new Button("buchen");
             currentButton.setStyle("-fx-background-color: #7BB6F1");
             currentButton.onActionProperty().setValue((event) -> {
-                //todo read date and time
-                Instant tUhrzeit = Instant.parse("2021-04-28T09:00:00.00Z"); //YYYY-MM-DDTHH:mm:ss.msZ
-                Date tDatum = Date.from(tUhrzeit);
+                Date tDatum = datum;
+                Instant tUhrzeit = uhrzeit;
                 Termin t = new Termin(tDatum, App.controller.getSelectedGerät(), tUhrzeit, App.controller.getAngemeldeterUser());
                 App.controller.terminBuchen(t,i,j);
                 updateButton(t,i,j);
