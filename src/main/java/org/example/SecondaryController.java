@@ -1,7 +1,10 @@
 package org.example;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javafx.event.ActionEvent;
@@ -46,6 +49,58 @@ public class SecondaryController {
         terminButtons[column][row].setText("stornieren");
     }
 
+    private void updateButton(Termin termin, int i, int j){
+        Calendar c = App.controller.getCalendar();
+        Date oldTime = c.getTime();
+        c.add(c.DATE,i);
+        c.add(c.HOUR_OF_DAY,(int)Math.floor(8+(j/2)));
+        c.add(c.MINUTE,(j%2) * 30);
+        Date datum = c.getTime();
+        Instant uhrzeit = datum.toInstant();
+
+        if(terminButtons[i][j]!=null){
+            bookingGrid.getChildren().remove(terminButtons[i][j]);
+        }
+        Button currentButton;
+        if(termin == null) {
+            //termin frei
+            currentButton = new Button("buchen");
+            currentButton.setStyle("-fx-background-color: #7BB6F1");
+            currentButton.onActionProperty().setValue((event) -> {
+                //todo read date and time
+                Instant tUhrzeit = Instant.parse("2021-04-28T09:00:00.00Z"); //YYYY-MM-DDTHH:mm:ss.msZ
+                Date tDatum = Date.from(tUhrzeit);
+                Termin t = new Termin(tDatum, App.controller.getSelectedGerät(), tUhrzeit, App.controller.getAngemeldeterUser());
+                App.controller.terminBuchen(t,i,j);
+                updateButton(t,i,j);
+            });
+        }else{
+            //termin vorhanden
+            if(App.controller.isTerminFromCurrentUser(termin)){
+                //termin von angemeldetem user
+                currentButton = new Button("stornieren");
+                currentButton.setStyle("-fx-background-color: #99DFA1");
+                currentButton.onActionProperty().setValue((event) -> {
+                    App.controller.terminStornieren(termin);
+                    updateButton(null,i,j);
+                });
+            }
+            else{
+                //termin NICHT von angemeldetem user
+                currentButton = new Button("belegt");
+                currentButton.setStyle("-fx-background-color: #FD7B8A");
+                currentButton.setDisable(true);
+            }
+        }
+        currentButton.prefHeight(33);
+        currentButton.prefWidth(71);
+        currentButton.setAlignment(Pos.CENTER);
+        bookingGrid.add(currentButton,i+1,j+1);
+        terminButtons[i][j] = currentButton;
+
+        c.setTime(oldTime);
+    }
+
     @FXML
     private void updateTermine(){
         for(int i = 0; i < terminButtons.length; i++){
@@ -56,33 +111,7 @@ public class SecondaryController {
         Termin[][] termineDerWoche = App.controller.getTermineDerWoche();
         for(int i = 0; i < termineDerWoche.length; i++){
             for(int j = 0; j < termineDerWoche[i].length; j++){
-                Button currentButton;
-                if(termineDerWoche[i][j] == null) {
-                    //termin frei
-                    currentButton = new Button("buchen");
-                    currentButton.setStyle("-fx-background-color: #7BB6F1");
-                    int column = i;
-                    int row = j;
-                    currentButton.onActionProperty().setValue((event) -> onButtonClick(column, row));//TODO add listener
-                }else{
-                    //termin vorhanden
-                    if(App.controller.isTerminFromCurrentUser(termineDerWoche[i][j])){
-                        //termin von angemeldetem user
-                        currentButton = new Button("stornieren");
-                        currentButton.setStyle("-fx-background-color: #FD7B8A");
-                    }
-                    else{
-                        //termin NICHT von angemeldetem user
-                        currentButton = new Button("belegt");
-                        currentButton.setDisable(true);
-                        currentButton.setStyle("-fx-background-color: #99DFA1");
-                    }
-                }
-                currentButton.prefHeight(33);
-                currentButton.prefWidth(71);
-                currentButton.setAlignment(Pos.CENTER);
-                bookingGrid.add(currentButton,i+1,j+1);
-                terminButtons[i][j] = currentButton;
+                updateButton(termineDerWoche[i][j],i,j);
             }
         }
     }
