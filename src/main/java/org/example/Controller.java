@@ -45,7 +45,7 @@ public class Controller {
         termineDerWoche = new Termin[7][20];
         this.geraeteListe = new ArrayList<Gerät>();
         selectedGerät = null;
-        dbController = new OracleDB("SUS_FS191_master", "m", "oracle.s-atiw.de", "1521", "atiwora");
+        dbController = new OracleDB("SUS_FS191_eschulte", "emily", "oracle.s-atiw.de", "1521", "atiwora");
 
         try {
             dbController.connect();
