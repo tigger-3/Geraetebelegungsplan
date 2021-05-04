@@ -15,6 +15,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 
 public class SecondaryController {
 
@@ -50,10 +51,6 @@ public class SecondaryController {
     }
 
     private Button[][] terminButtons = new Button[7][20];
-
-    private void onButtonClick(int column, int row){
-        terminButtons[column][row].setText("stornieren");
-    }
 
     private void updateButton(Termin termin, int i, int j){
         Calendar c = App.controller.getCalendar();
@@ -98,8 +95,8 @@ public class SecondaryController {
                 currentButton.setDisable(true);
             }
         }
-        currentButton.prefHeight(33);
-        currentButton.prefWidth(71);
+        currentButton.setPrefHeight(25);
+        currentButton.setPrefWidth(71);
         currentButton.setAlignment(Pos.CENTER);
         bookingGrid.add(currentButton,i+1,j+1);
         terminButtons[i][j] = currentButton;

@@ -102,7 +102,7 @@
             </GridPane>
          </center>
          <left>
-            <Button mnemonicParsing="false" onAction="#updateTermine" text="Button" BorderPane.alignment="CENTER" />
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateTermine" prefHeight="25.0" prefWidth="42.0" text="Button" BorderPane.alignment="CENTER" />
          </left>
       </BorderPane>
    </center>
