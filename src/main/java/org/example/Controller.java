@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.time.Instant;
 import java.time.temporal.TemporalUnit;
 import java.util.*;
@@ -62,6 +65,59 @@ public class Controller {
         // geräteListe füllen
         // selectedGerät auswählen
         // get Termine (bitte in eigener methode, damit bei neuaswahl des Gerätes update möglich ist
+    }
+
+    public void getTermine(){
+        try{
+            ResultSet terminResults = dbController.getList("SELECT * FROM nutzung WHERE geraete_id == " + selectedGerät.GeräteID);
+
+            while(terminResults.next()){
+                Date datum = terminResults.getDate("DATUM");
+                Time uhrzeitT = terminResults.getTime("ANFANG");
+                datum.setTime(uhrzeitT.getTime());
+                Instant uhrzeit = datum.toInstant();
+                User benutzer = new User("NAME NOCH IRRELEVANT", terminResults.getString("KUNDEN_ID"));
+                Termin t = new Termin(datum,selectedGerät,uhrzeit,benutzer);
+
+                try{
+                    Date oldCalendar = calendar.getTime();
+                    Date comparisonDate = calendar.getTime();
+                    boolean eingetragen = false;
+                    for(int i = -1; i < termineDerWoche.length && !eingetragen; i++){
+                        if(datum.compareTo(comparisonDate) <= 0){
+                            if(i==-1){
+                                eingetragen=true; //before current week
+                            }
+                            else{
+                                calendar.add(GregorianCalendar.DAY_OF_WEEK,-1);
+                                calendar.set(GregorianCalendar.HOUR,8);
+                                comparisonDate = calendar.getTime();
+                                for(int j = -1; j < termineDerWoche[i].length; j++){
+                                    if(datum.compareTo(comparisonDate)<0){
+                                        if(i==-1){
+                                            eingetragen = true; // before opening time
+                                        }
+                                        else{
+                                            termineDerWoche[i][j]=t;
+                                            eingetragen=true;
+                                        }
+                                    }
+                                    calendar.add(GregorianCalendar.MINUTE,30);
+                                }
+                            }
+                        }
+                        calendar.add(GregorianCalendar.DAY_OF_WEEK, 1);
+                        comparisonDate = calendar.getTime();
+                    }
+                    calendar.setTime(oldCalendar);
+                }
+                catch (IndexOutOfBoundsException e){
+                    //ignore - die Datenbankgruppe hat mal wieder Daten eingefügt, mit denen wir nichts anfangen können
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public void close(){
