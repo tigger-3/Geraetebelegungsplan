@@ -26,7 +26,7 @@ public class Controller {
     }
 
     private Termin[][] termineDerWoche;
-    private Gerät[] geraeteListe;
+    private List<Gerät> geraeteListe;
 
     public Gerät getSelectedGerät() {
         return selectedGerät;
@@ -43,7 +43,7 @@ public class Controller {
         calendar.set(calendar.MILLISECOND,0);
         this.angemeldeterUser = null;
         termineDerWoche = new Termin[7][20];
-        this.geraeteListe = new Gerät[0];
+        this.geraeteListe = new ArrayList<Gerät>();
         selectedGerät = null;
         dbController = new OracleDB("SUS_FS191_master", "m", "oracle.s-atiw.de", "1521", "atiwora");
 
@@ -52,6 +52,11 @@ public class Controller {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        //TODO: get data from database
+        // geräteListe füllen
+        // selectedGerät auswählen
+        // get Termine (bitte in eigener methode, damit bei neuaswahl des Gerätes update möglich ist
     }
 
     public void close(){
@@ -87,9 +92,9 @@ public class Controller {
 
     public User momentanerUser(){
         return angemeldeterUser;
-    }
+    } //todo mock
 
-    public void kalenderExportieren(){
+    public void kalenderExportieren(){ //TODO - hinten angestellt
 
     }
 
