@@ -40,6 +40,21 @@ public class Controller {
         return selectedGerät;
     }
 
+    public ArrayList<User> getUserListe(){
+        ArrayList<User> userListe = new ArrayList<User>();
+        ResultSet rs;
+
+        try {
+            rs =  dbController.getList("SELECT * FROM KUNDE");
+            while(rs.next()){
+                userListe.add(new User(rs.getString("Vorname"), rs.getString("Nachname"), rs.getString("Kunden_ID")));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return userListe;
+    }
+
     private Gerät selectedGerät;
     private OracleDB dbController;
 
@@ -92,7 +107,7 @@ public class Controller {
                 Time uhrzeitT = terminResults.getTime("ANFANG");
                 datum.setTime(uhrzeitT.getTime());
                 Instant uhrzeit = datum.toInstant();
-                User benutzer = new User("NAME NOCH IRRELEVANT", terminResults.getString("KUNDEN_ID"));
+                User benutzer = new User("NAME NOCH IRRELEVANT", "irrelevant", terminResults.getString("KUNDEN_ID"));
                 Termin t = new Termin(datum,selectedGerät,uhrzeit,benutzer);
 
                 try{

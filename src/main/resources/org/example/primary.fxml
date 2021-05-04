@@ -10,9 +10,9 @@
    </padding>
    <children>
       <Label text="Kundennummer" />
-      <TextField />
+      <TextField fx:id="kundennr_eingabe" />
       <Label text="Passwort" />
-      <PasswordField />
-      <Button mnemonicParsing="false" onAction="#switchToSecondary" text="anmelden" />
+      <PasswordField fx:id="passwort_eingabe" />
+      <Button fx:id="login" mnemonicParsing="false" onAction="#checkUser" text="anmelden" />
    </children>
 </VBox>
