@@ -37,4 +37,9 @@ public class App extends Application {
         launch();
     }
 
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        controller.close();
+    }
 }
