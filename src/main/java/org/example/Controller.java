@@ -61,6 +61,22 @@ public class Controller {
             e.printStackTrace();
         }
 
+        ResultSet rs;
+
+        try {
+           rs =  dbController.getList("SELECT * FROM GERAET");
+           while(rs.next()){
+               this.geraeteListe.add(new Gerät(rs.getString("geraetename"), rs.getString("geraete_id")));
+           }
+            for (Gerät g: geraeteListe
+                 ) {
+                System.out.println(g);
+
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         //TODO: get data from database
         // geräteListe füllen
         // selectedGerät auswählen

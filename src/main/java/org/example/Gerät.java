@@ -10,5 +10,8 @@ public class Gerät {
         GeräteID = geräteID;
     }
 
-
+    @Override
+    public String toString() {
+        return Gerätename + " " + GeräteID + ",";
+    }
 }
