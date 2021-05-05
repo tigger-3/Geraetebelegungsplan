@@ -283,7 +283,7 @@ public class Controller {
                 if(termin!=null && isTerminFromCurrentUser(termin)) {
                     kalenderString +=
                         "BEGIN:VEVENT\n" +
-                        "UID:" + dateFormat.format(Date.from(termin.uhrzeit)) + "Z" + prolongenStringTo(angemeldeterUser.kundenummer,10) + "@meinfitnessstudio.com\n" +
+                        "UID:" + dateFormat.format(Date.from(termin.uhrzeit)) + "Z" + prolongenStringTo(angemeldeterUser.kundenummer,10) + "@FitnessStudio191.com\n" +
                         //Organizer stays ignored "ORGANIZER:" + "\n" +
                         "SUMMARY:" + "Training auf " + termin.ausgewaehltesGeraet.geraetename + "\n" +
                         "DESCRIPTION:" + "Sie haben ein Training auf dem Gerät \"" + termin.ausgewaehltesGeraet.geraetename + "(" + termin.ausgewaehltesGeraet.geraeteID + ")\" gebucht." + "\n" +
