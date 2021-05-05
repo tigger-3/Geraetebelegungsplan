@@ -16,7 +16,7 @@ public class SecondaryController {
 
     @FXML
     public void initialize(){
-        kalenderwocheNr.setText(String.valueOf(App.controller.getCalendar().get(Calendar.WEEK_OF_YEAR)));
+        kalenderwocheNr.setText(String.valueOf(App.mainController.getCalendar().get(Calendar.WEEK_OF_YEAR)));
         updateGeraeteMenu();
     }
 
@@ -36,11 +36,11 @@ public class SecondaryController {
             geraeteMenuEintraege.remove(eintrag);
         }
 
-        for(Gerät geraet: App.controller.getGeraeteListe()){
+        for(Geraet geraet: App.mainController.getGeraeteListe()){
             MenuItem eintrag = new MenuItem();
-            eintrag.setText(geraet.Gerätename + " (" + geraet.GeräteID + ")");
+            eintrag.setText(geraet.geraetename + " (" + geraet.geraeteID + ")");
             eintrag.onActionProperty().setValue((event) -> {
-                App.controller.selectGeraet(geraet);
+                App.mainController.selectGeraet(geraet);
                 updateTermine();
             });
             geraeteMenu.getItems().add(eintrag);
@@ -51,7 +51,7 @@ public class SecondaryController {
     private final Button[][] terminButtons = new Button[7][20];
 
     private void updateButton(Termin termin, int i, int j){
-        Calendar c = App.controller.getCalendar();
+        Calendar c = App.mainController.getCalendar();
         Date oldTime = c.getTime();
         c.add(Calendar.DATE,i);
         c.add(Calendar.HOUR_OF_DAY,(int)Math.floor(8+((double)j/2)));
@@ -69,18 +69,18 @@ public class SecondaryController {
             currentButton = new Button("buchen");
             currentButton.setStyle("-fx-background-color: #7BB6F1");
             currentButton.onActionProperty().setValue((event) -> {
-                Termin t = new Termin(datum, App.controller.getSelectedGeraet(), uhrzeit, App.controller.getAngemeldeterUser());
-                App.controller.terminBuchen(t,i,j);
+                Termin t = new Termin(datum, App.mainController.getSelectedGeraet(), uhrzeit, App.mainController.getAngemeldeterUser());
+                App.mainController.terminBuchen(t,i,j);
                 updateButton(t,i,j);
             });
         }else{
             //termin vorhanden
-            if(App.controller.isTerminFromCurrentUser(termin)){
+            if(App.mainController.isTerminFromCurrentUser(termin)){
                 //termin von angemeldetem user
                 currentButton = new Button("stornieren");
                 currentButton.setStyle("-fx-background-color: #99DFA1");
                 currentButton.onActionProperty().setValue((event) -> {
-                    App.controller.terminStornieren(termin);
+                    App.mainController.terminStornieren(termin);
                     updateButton(null,i,j);
                 });
             }
@@ -107,7 +107,7 @@ public class SecondaryController {
                 bookingGrid.getChildren().remove(button);
             }
         }
-        Termin[][] termineDerWoche = App.controller.getTermineDerWoche();
+        Termin[][] termineDerWoche = App.mainController.getTermineDerWoche();
         for(int i = 0; i < termineDerWoche.length; i++){
             for(int j = 0; j < termineDerWoche[i].length; j++){
                 updateButton(termineDerWoche[i][j],i,j);
@@ -122,22 +122,22 @@ public class SecondaryController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        App.controller.setAngemeldeterUser(null);
+        App.mainController.setAngemeldeterUser(null);
     }
 
     @FXML
     private void wocheVor(){
-        App.controller.nextWeek();
-        kalenderwocheNr.setText(String.valueOf(App.controller.getCalendar().get(Calendar.WEEK_OF_YEAR)));
-        if(App.controller.getSelectedGeraet()!=null){
+        App.mainController.nextWeek();
+        kalenderwocheNr.setText(String.valueOf(App.mainController.getCalendar().get(Calendar.WEEK_OF_YEAR)));
+        if(App.mainController.getSelectedGeraet()!=null){
             updateTermine();
         }
     }
     @FXML
     private void wocheZurueck(){
-        App.controller.lastWeek();
-        kalenderwocheNr.setText(String.valueOf(App.controller.getCalendar().get(Calendar.WEEK_OF_YEAR)));
-        if(App.controller.getSelectedGeraet()!=null){
+        App.mainController.lastWeek();
+        kalenderwocheNr.setText(String.valueOf(App.mainController.getCalendar().get(Calendar.WEEK_OF_YEAR)));
+        if(App.mainController.getSelectedGeraet()!=null){
             updateTermine();
         }
     }

@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class App extends Application {
 
-    public static Controller controller = new Controller();
+    public static Controller mainController = new Controller();
 
     private static Scene scene;
 
@@ -40,6 +40,6 @@ public class App extends Application {
     @Override
     public void stop() throws Exception {
         super.stop();
-        controller.close();
+        mainController.close();
     }
 }

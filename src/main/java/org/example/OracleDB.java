@@ -3,7 +3,6 @@ package org.example;
 import oracle.jdbc.pool.OracleDataSource;
 
 import java.sql.*;
-import java.util.Date;
 
 public class OracleDB {
 
@@ -44,11 +43,9 @@ public class OracleDB {
 
     public ResultSet getList(String sql) throws SQLException {
 
-            Statement befehl = con.createStatement();
+        Statement befehl = con.createStatement();
 
-            ResultSet ergebnisse = befehl.executeQuery(sql);
-
-            return ergebnisse;
+        return befehl.executeQuery(sql);
 
     }
     public boolean send(String sql) throws SQLException {
@@ -61,10 +58,10 @@ public class OracleDB {
         PreparedStatement stat = con.prepareStatement(
                 "INSERT INTO nutzung(kunden_id, geraete_id, datum, anfang, ende) " +
                         "VALUES(?,?,TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"'),TO_TIMESTAMP(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"'),TO_TIMESTAMP(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"'))");
-        stat.setString(1,termin.Benutzer.Kundenummer);
-        stat.setString(2,termin.AusgewähltesGerät.GeräteID);
-        stat.setString(3,termin.Datum.toInstant().toString());
-        stat.setString(4,termin.Uhrzeit.toString());
+        stat.setString(1,termin.benutzer.kundenummer);
+        stat.setString(2,termin.ausgewaehltesGeraet.geraeteID);
+        stat.setString(3,termin.datum.toInstant().toString());
+        stat.setString(4,termin.uhrzeit.toString());
         stat.setString(5,termin.getEndzeit().toString());
 
         return stat.execute();
@@ -82,10 +79,10 @@ public class OracleDB {
                         "AND ende = TO_TIMESTAMP(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') "
         );
 
-        stat.setString(1,termin.Benutzer.Kundenummer);
-        stat.setString(2,termin.AusgewähltesGerät.GeräteID);
-        stat.setString(3,termin.Datum.toInstant().toString());
-        stat.setString(4,termin.Uhrzeit.toString());
+        stat.setString(1,termin.benutzer.kundenummer);
+        stat.setString(2,termin.ausgewaehltesGeraet.geraeteID);
+        stat.setString(3,termin.datum.toInstant().toString());
+        stat.setString(4,termin.uhrzeit.toString());
         stat.setString(5,termin.getEndzeit().toString());
 
         return stat.execute();

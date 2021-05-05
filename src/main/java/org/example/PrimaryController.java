@@ -13,12 +13,12 @@ public class PrimaryController {
 
     @FXML
     private void checkUser() throws IOException {
-        ArrayList<User> temp = App.controller.getUserListe();
+        ArrayList<User> temp = App.mainController.getUserListe();
         String kundennr = kundennr_eingabe.getText();
         for (User u: temp
              ) {
-            if(u.Kundenummer.equals(kundennr)){
-                App.controller.setAngemeldeterUser(u);
+            if(u.kundenummer.equals(kundennr)){
+                App.mainController.setAngemeldeterUser(u);
                 App.setRoot("secondary");
             }
         }

@@ -1,13 +1,13 @@
 package org.example;
 
 public class User {
-    String Name;
-    String Kundenummer;
-    String Vorname;
+    String name;
+    String kundenummer;
+    String vorname;
 
     public User(String vorname, String name, String kundenummer) {
-        Vorname = vorname;
-        Name = name;
-        Kundenummer = kundenummer;
+        this.vorname = vorname;
+        this.name = name;
+        this.kundenummer = kundenummer;
     }
 }

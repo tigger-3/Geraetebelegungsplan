@@ -28,13 +28,13 @@ public class Controller {
 
     private final Termin[][] termineDerWoche;
 
-    public List<Gerät> getGeraeteListe() {
+    public List<Geraet> getGeraeteListe() {
         return geraeteListe;
     }
 
-    private final List<Gerät> geraeteListe;
+    private final List<Geraet> geraeteListe;
 
-    public Gerät getSelectedGeraet() {
+    public Geraet getSelectedGeraet() {
         return selectedGeraet;
     }
 
@@ -53,7 +53,7 @@ public class Controller {
         return userListe;
     }
 
-    private Gerät selectedGeraet;
+    private Geraet selectedGeraet;
     private final OracleDB dbController;
 
     public Controller() {
@@ -80,9 +80,9 @@ public class Controller {
         try {
            rs =  dbController.getList("SELECT * FROM GERAET");
            while(rs.next()){
-               this.geraeteListe.add(new Gerät(rs.getString("geraetename"), rs.getString("geraete_id")));
+               this.geraeteListe.add(new Geraet(rs.getString("geraetename"), rs.getString("geraete_id")));
            }
-            for (Gerät g: geraeteListe
+            for (Geraet g: geraeteListe
                  ) {
                 System.out.println(g);
 
@@ -137,7 +137,7 @@ public class Controller {
                             "FROM nutzung " +
                             "JOIN kunde " +
                             "ON kunde.kunden_id = nutzung.kunden_id " +
-                            "WHERE geraete_id = " + selectedGeraet.GeräteID);
+                            "WHERE geraete_id = " + selectedGeraet.geraeteID);
 
             while(terminResults.next()){
                 java.sql.Date test = terminResults.getDate("DATUM");
@@ -208,14 +208,14 @@ public class Controller {
 
     public boolean isTerminFromCurrentUser(Termin termin){
         if(angemeldeterUser != null) {
-            return termin.Benutzer.Kundenummer.equals(this.angemeldeterUser.Kundenummer);
+            return termin.benutzer.kundenummer.equals(this.angemeldeterUser.kundenummer);
         }
         else{
             return false; //if no user is logged in, he has not booked anything
         }
     }
 
-    public void selectGeraet(Gerät newSelection){
+    public void selectGeraet(Geraet newSelection){
         selectedGeraet = newSelection; //TODO update termine
         getTermine();
     }
