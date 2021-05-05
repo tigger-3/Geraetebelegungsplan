@@ -1,8 +1,13 @@
 package org.example;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.*;
 
@@ -245,8 +250,75 @@ public class Controller {
         }
     }
 
-    public void kalenderExportieren(){ //TODO - hinten angestellt
+    @SuppressWarnings("StringConcatenationInLoop")
+    public void kalenderExportieren(){ //Kalenderexport nach RFC5545 - iCalendar
+        String kalenderString =
+            "BEGIN:VCALENDAR\n" +
+            "VERSION:2.0\n" +
+            //ProdID not used - "PRODID:http://www.example.com/calendarapplication/\n" +
+            "METHOD:PUBLISH\n"
+            //*
+             +
+            "BEGIN:VTIMEZONE\n" +
+            "TZID:Europe/Berlin\n" +
+            "BEGIN:STANDARD\n" +
+            "DTSTART:16011028T030000\n" +
+            "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\n" +
+            "TZOFFSETFROM:+0200\n" +
+            "TZOFFSETTO:+0100\n" +
+            "END:STANDARD\n" +
+            "BEGIN:DAYLIGHT\n" +
+            "DTSTART:16010325T020000\n" +
+            "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\n" +
+            "TZOFFSETFROM:+0100\n" +
+            "TZOFFSETTO:+0200\n" +
+            "END:DAYLIGHT\n" +
+            "END:VTIMEZONE\n"//*/
+            ;
+        //end of starting block
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+        boolean termineVorhanden = false;
+        for (Termin[] termineDesTages:termineDerWoche) {
+            for (Termin termin:termineDesTages) {
+                if(termin!=null && isTerminFromCurrentUser(termin)) {
+                    kalenderString +=
+                        "BEGIN:VEVENT\n" +
+                        "UID:" + dateFormat.format(Date.from(termin.uhrzeit)) + "Z" + prolongenStringTo(angemeldeterUser.kundenummer,10) + "@meinfitnessstudio.com\n" +
+                        //Organizer stays ignored "ORGANIZER:" + "\n" +
+                        "SUMMARY:" + "Training auf " + termin.ausgewaehltesGeraet.geraetename + "\n" +
+                        "DESCRIPTION:" + "Sie haben ein Training auf dem Gerät \"" + termin.ausgewaehltesGeraet.geraetename + "(" + termin.ausgewaehltesGeraet.geraeteID + ")\" gebucht." + "\n" +
+                        "CLASS:PUBLIC\n" +
+                        "DTSTART;TZID=Europe/Berlin:" + dateFormat.format(Date.from(termin.uhrzeit)) + "\n" +
+                        "DTEND;TZID=Europe/Berlin:" + dateFormat.format(Date.from(termin.endzeit)) + "\n" +
+                        "DTSTAMP:" + dateFormat.format(Date.from(Instant.now())) + "Z\n" +
+                        "END:VEVENT\n";
+                    termineVorhanden = true;
+                }
+            }
+        }
+        //end of event block
+        kalenderString+=
+            "END:VCALENDAR";
 
+        if(termineVorhanden) { // wenn keine Termine vorhanden sind, geht ein Import schief.
+            File outputFile = new File("Export " + dateFormat.format(Date.from(Instant.now())) + ".ics");
+            try {
+                BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
+                bw.write(kalenderString);
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private String prolongenStringTo(String string, int length){
+        StringBuilder stringBuilder = new StringBuilder(string);
+        while (stringBuilder.length()<length){
+            stringBuilder.insert(0, "0");
+        }
+        string = stringBuilder.toString();
+        return string;
     }
 
 }

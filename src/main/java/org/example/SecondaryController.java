@@ -141,4 +141,8 @@ public class SecondaryController {
             updateTermine();
         }
     }
+    @FXML
+    private void export(){
+        App.mainController.kalenderExportieren();
+    }
 }
