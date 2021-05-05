@@ -18,6 +18,7 @@ public class PrimaryController {
         for (User u: temp
              ) {
             if(u.Kundenummer.equals(kundennr)){
+                App.controller.setAngemeldeterUser(u);
                 App.setRoot("secondary");
             }
         }

@@ -20,17 +20,21 @@
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem mnemonicParsing="false" onAction="#abmelden" text="Abmelden" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
    </top>
    <center>
-      <BorderPane prefHeight="742.0" prefWidth="753.0" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="663.0" prefWidth="968.0" BorderPane.alignment="CENTER">
          <top>
             <Pane prefHeight="43.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="336.0" layoutY="13.0" text="Kalenderwoche" />
+                  <Button layoutX="436.0" layoutY="9.0" mnemonicParsing="false" onAction="#wocheZurück" text="&lt;-" />
+                  <Label layoutX="464.0" layoutY="13.0" text="Kalenderwoche" />
+                  <Label fx:id="kalenderwocheNr" layoutX="498.0" layoutY="26.0" text="00" />
+                  <Button layoutX="547.0" layoutY="9.0" mnemonicParsing="false" onAction="#wocheVor" text="-&gt;" />
                </children>
             </Pane>
          </top>
@@ -101,9 +105,6 @@
                </children>
             </GridPane>
          </center>
-         <left>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateTermine" prefHeight="25.0" prefWidth="42.0" text="Button" BorderPane.alignment="CENTER" />
-         </left>
       </BorderPane>
    </center>
 </BorderPane>

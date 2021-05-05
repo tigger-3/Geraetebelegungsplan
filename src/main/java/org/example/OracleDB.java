@@ -3,6 +3,7 @@ package org.example;
 import oracle.jdbc.pool.OracleDataSource;
 
 import java.sql.*;
+import java.util.Date;
 
 public class OracleDB {
 
@@ -49,6 +50,48 @@ public class OracleDB {
 
             return ergebnisse;
 
+    }
+    public boolean send(String sql) throws SQLException {
+        Statement befehl = con.createStatement();
+
+        return befehl.execute(sql);
+    }
+    public boolean insertTermin(Termin termin) throws SQLException {
+
+        PreparedStatement stat = con.prepareStatement(
+                "INSERT INTO nutzung(kunden_id, geraete_id, datum, anfang, ende) " +
+                        "VALUES(?,?,TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"'),TO_TIMESTAMP(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"'),TO_TIMESTAMP(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"'))");
+        stat.setString(1,termin.Benutzer.Kundenummer);
+        stat.setString(2,termin.AusgewähltesGerät.GeräteID);
+        stat.setString(3,termin.Datum.toInstant().toString());
+        stat.setString(4,termin.Uhrzeit.toString());
+        stat.setString(5,termin.getEndzeit().toString());
+
+        return stat.execute();
+    }
+    public boolean insert(String sql) throws SQLException{
+        return send(sql);
+    }
+    public boolean deleteTermin(Termin termin) throws SQLException{
+        PreparedStatement stat = con.prepareStatement(
+                "DELETE FROM nutzung " +
+                        "WHERE kunden_id = ? " +
+                        "AND geraete_id = ? " +
+                        "AND datum = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') " +
+                        "AND anfang = TO_TIMESTAMP(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') " +
+                        "AND ende = TO_TIMESTAMP(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') "
+        );
+
+        stat.setString(1,termin.Benutzer.Kundenummer);
+        stat.setString(2,termin.AusgewähltesGerät.GeräteID);
+        stat.setString(3,termin.Datum.toInstant().toString());
+        stat.setString(4,termin.Uhrzeit.toString());
+        stat.setString(5,termin.getEndzeit().toString());
+
+        return stat.execute();
+    }
+    public boolean delete(String sql) throws SQLException{
+        return send(sql);
     }
 
     public void disconnect(){
