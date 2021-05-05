@@ -1,15 +1,9 @@
 package org.example;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.text.DateFormat;
 import java.time.Instant;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 
 public class Controller {
@@ -17,7 +11,7 @@ public class Controller {
         return calendar;
     }
 
-    private Calendar calendar = GregorianCalendar.getInstance();
+    private final Calendar calendar = GregorianCalendar.getInstance();
 
     public void setAngemeldeterUser(User neuerUser) {
         this.angemeldeterUser = neuerUser;
@@ -32,20 +26,20 @@ public class Controller {
         return termineDerWoche;
     }
 
-    private Termin[][] termineDerWoche;
+    private final Termin[][] termineDerWoche;
 
     public List<Gerät> getGeraeteListe() {
         return geraeteListe;
     }
 
-    private List<Gerät> geraeteListe;
+    private final List<Gerät> geraeteListe;
 
-    public Gerät getSelectedGerät() {
-        return selectedGerät;
+    public Gerät getSelectedGeraet() {
+        return selectedGeraet;
     }
 
     public ArrayList<User> getUserListe(){
-        ArrayList<User> userListe = new ArrayList<User>();
+        ArrayList<User> userListe = new ArrayList<>();
         ResultSet rs;
 
         try {
@@ -59,20 +53,20 @@ public class Controller {
         return userListe;
     }
 
-    private Gerät selectedGerät;
-    private OracleDB dbController;
+    private Gerät selectedGeraet;
+    private final OracleDB dbController;
 
     public Controller() {
-        calendar.set(calendar.DAY_OF_WEEK, calendar.MONDAY);
-        calendar.set(calendar.HOUR_OF_DAY,0);
-        calendar.set(calendar.MINUTE,0);
-        calendar.set(calendar.SECOND,0);
-        calendar.set(calendar.MILLISECOND,0);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
         //calendar.setTimeZone(TimeZone.getTimeZone("GMT"));
         this.angemeldeterUser = null;
         termineDerWoche = new Termin[7][20];
-        this.geraeteListe = new ArrayList<Gerät>();
-        selectedGerät = null;
+        this.geraeteListe = new ArrayList<>();
+        selectedGeraet = null;
         dbController = new OracleDB("SUS_FS191_eschulte", "emily", "oracle.s-atiw.de", "1521", "atiwora");
 
         try {
@@ -101,22 +95,20 @@ public class Controller {
     public void nextWeek(){
         calendar.add(Calendar.WEEK_OF_MONTH,1);
         clearTermine();
-        if(getSelectedGerät()!=null){
+        if(getSelectedGeraet()!=null){
             getTermine();
         }
     }
     public void lastWeek(){
         calendar.add(Calendar.WEEK_OF_MONTH,-1);
         clearTermine();
-        if(getSelectedGerät()!=null){
+        if(getSelectedGeraet()!=null){
             getTermine();
         }
     }
     private void clearTermine(){
-        for(int i = 0; i < termineDerWoche.length; i++){
-            for(int j=0; j<termineDerWoche[i].length;j++){
-                termineDerWoche[i][j]=null;
-            }
+        for (Termin[] termins : termineDerWoche) {
+            Arrays.fill(termins, null);
         }
     }
 
@@ -145,7 +137,7 @@ public class Controller {
                             "FROM nutzung " +
                             "JOIN kunde " +
                             "ON kunde.kunden_id = nutzung.kunden_id " +
-                            "WHERE geraete_id = " + selectedGerät.GeräteID);
+                            "WHERE geraete_id = " + selectedGeraet.GeräteID);
 
             while(terminResults.next()){
                 java.sql.Date test = terminResults.getDate("DATUM");
@@ -164,7 +156,7 @@ public class Controller {
                 Date enddatum = mergeDateAndTime(test,endzeitT);
                 //enddatum.setTime(endzeitT.getTime());
                 Instant endzeit = enddatum.toInstant();
-                Termin t = new Termin(datum,selectedGerät,uhrzeit,benutzer);
+                Termin t = new Termin(datum, selectedGeraet,uhrzeit,benutzer);
                 t.setEndzeit(endzeit);
 
                 Date oldCalendar = calendar.getTime();
@@ -182,6 +174,7 @@ public class Controller {
                                 comparisonDate = calendar.getTime();
                                 for(int j = -1; j < termineDerWoche[i].length && !eingetragen; j++){
                                     if(datum.compareTo(comparisonDate)<0){
+                                        //noinspection IfStatementWithIdenticalBranches
                                         if(j==-1){
                                             eingetragen = true; // before opening time
                                         }
@@ -222,8 +215,8 @@ public class Controller {
         }
     }
 
-    public void selectGerät(Gerät newSelection){
-        selectedGerät = newSelection; //TODO update termine
+    public void selectGeraet(Gerät newSelection){
+        selectedGeraet = newSelection; //TODO update termine
         getTermine();
     }
 
@@ -250,10 +243,6 @@ public class Controller {
                 }
             }
         }
-    }
-
-    public User momentanerUser(){
-        return angemeldeterUser;
     }
 
     public void kalenderExportieren(){ //TODO - hinten angestellt

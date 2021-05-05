@@ -4,23 +4,20 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
 
 public class SecondaryController {
 
     @FXML
     public void initialize(){
         kalenderwocheNr.setText(String.valueOf(App.controller.getCalendar().get(Calendar.WEEK_OF_YEAR)));
-        updateGeräteMenu();
+        updateGeraeteMenu();
     }
 
     @FXML
@@ -30,35 +27,35 @@ public class SecondaryController {
     @FXML
     private Label kalenderwocheNr;
 
-    private List<MenuItem> geräteMenuEinträge = new ArrayList<MenuItem>();
+    private final List<MenuItem> geraeteMenuEintraege = new ArrayList<>();
 
     @FXML
-    private void updateGeräteMenu(){
-        for(MenuItem eintrag: geräteMenuEinträge){
+    private void updateGeraeteMenu(){
+        for(MenuItem eintrag: geraeteMenuEintraege){
             geraeteMenu.getItems().remove(eintrag);
-            geräteMenuEinträge.remove(eintrag);
+            geraeteMenuEintraege.remove(eintrag);
         }
 
-        for(Gerät gerät: App.controller.getGeraeteListe()){
+        for(Gerät geraet: App.controller.getGeraeteListe()){
             MenuItem eintrag = new MenuItem();
-            eintrag.setText(gerät.Gerätename + " (" + gerät.GeräteID + ")");
+            eintrag.setText(geraet.Gerätename + " (" + geraet.GeräteID + ")");
             eintrag.onActionProperty().setValue((event) -> {
-                App.controller.selectGerät(gerät);
+                App.controller.selectGeraet(geraet);
                 updateTermine();
             });
             geraeteMenu.getItems().add(eintrag);
-            geräteMenuEinträge.add(eintrag);
+            geraeteMenuEintraege.add(eintrag);
         }
     }
 
-    private Button[][] terminButtons = new Button[7][20];
+    private final Button[][] terminButtons = new Button[7][20];
 
     private void updateButton(Termin termin, int i, int j){
         Calendar c = App.controller.getCalendar();
         Date oldTime = c.getTime();
-        c.add(c.DATE,i);
-        c.add(c.HOUR_OF_DAY,(int)Math.floor(8+(j/2)));
-        c.add(c.MINUTE,(j%2) * 30);
+        c.add(Calendar.DATE,i);
+        c.add(Calendar.HOUR_OF_DAY,(int)Math.floor(8+((double)j/2)));
+        c.add(Calendar.MINUTE,(j%2) * 30);
         //c.setTimeZone();
         Date datum = c.getTime();
         Instant uhrzeit = datum.toInstant();
@@ -71,10 +68,8 @@ public class SecondaryController {
             //termin frei
             currentButton = new Button("buchen");
             currentButton.setStyle("-fx-background-color: #7BB6F1");
-            Date tDatum = datum;
-            Instant tUhrzeit = uhrzeit;
             currentButton.onActionProperty().setValue((event) -> {
-                Termin t = new Termin(tDatum, App.controller.getSelectedGerät(), tUhrzeit, App.controller.getAngemeldeterUser());
+                Termin t = new Termin(datum, App.controller.getSelectedGeraet(), uhrzeit, App.controller.getAngemeldeterUser());
                 App.controller.terminBuchen(t,i,j);
                 updateButton(t,i,j);
             });
@@ -107,9 +102,9 @@ public class SecondaryController {
 
     @FXML
     private void updateTermine(){
-        for(int i = 0; i < terminButtons.length; i++){
-            for(int j = 0; j < terminButtons[i].length; j++){
-                bookingGrid.getChildren().remove(terminButtons[i][j]);
+        for (Button[] terminButton : terminButtons) {
+            for (Button button : terminButton) {
+                bookingGrid.getChildren().remove(button);
             }
         }
         Termin[][] termineDerWoche = App.controller.getTermineDerWoche();
@@ -134,15 +129,15 @@ public class SecondaryController {
     private void wocheVor(){
         App.controller.nextWeek();
         kalenderwocheNr.setText(String.valueOf(App.controller.getCalendar().get(Calendar.WEEK_OF_YEAR)));
-        if(App.controller.getSelectedGerät()!=null){
+        if(App.controller.getSelectedGeraet()!=null){
             updateTermine();
         }
     }
     @FXML
-    private void wocheZurück(){
+    private void wocheZurueck(){
         App.controller.lastWeek();
         kalenderwocheNr.setText(String.valueOf(App.controller.getCalendar().get(Calendar.WEEK_OF_YEAR)));
-        if(App.controller.getSelectedGerät()!=null){
+        if(App.controller.getSelectedGeraet()!=null){
             updateTermine();
         }
     }
