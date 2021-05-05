@@ -301,7 +301,7 @@ public class Controller {
             "END:VCALENDAR";
 
         if(termineVorhanden) { // wenn keine Termine vorhanden sind, geht ein Import schief.
-            File outputFile = new File("Export " + dateFormat.format(Date.from(Instant.now())) + ".ics");
+            File outputFile = new File("exports/Export " + dateFormat.format(Date.from(Instant.now())) + ".ics");
             try {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
                 bw.write(kalenderString);
