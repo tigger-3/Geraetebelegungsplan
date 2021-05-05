@@ -11,7 +11,7 @@
                <SeparatorMenuItem mnemonicParsing="false" />
            </Menu>
            <Menu mnemonicParsing="false" text="Export">
-               <MenuItem mnemonicParsing="false" onAction="#export" text="Als iCalendar-Datei (.iCal)" />
+               <MenuItem mnemonicParsing="false" onAction="#export" text="Als iCalendar-Datei (.ics)" />
            </Menu>
            <Menu mnemonicParsing="false" text="Help">
                <MenuItem mnemonicParsing="false" text="About" />
