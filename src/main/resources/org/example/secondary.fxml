@@ -14,7 +14,7 @@
                <MenuItem mnemonicParsing="false" onAction="#export" text="Als iCalendar-Datei (.ics)" />
            </Menu>
            <Menu mnemonicParsing="false" text="Help">
-               <MenuItem mnemonicParsing="false" text="About" />
+               <!--<MenuItem mnemonicParsing="false" text="About" />-->
                <MenuItem mnemonicParsing="false" onAction="#abmelden" text="Abmelden" />
            </Menu>
        </MenuBar>
