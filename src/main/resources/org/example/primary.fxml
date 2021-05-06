@@ -9,10 +9,27 @@
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
    <children>
+      <Label text="Database User" />
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="100.0" prefWidth="250.0">
+               <children>
+                  <Label text="DB User" />
+                  <TextField fx:id="dbUserField" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="100.0" prefWidth="250.0">
+               <children>
+                  <Label text="DB Password" />
+                  <PasswordField fx:id="dbPasswordField" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
       <Label text="Kundennummer" />
       <TextField fx:id="kundennr_eingabe" />
       <Label text="Passwort" />
-      <PasswordField fx:id="passwort_eingabe" />
+      <PasswordField fx:id="passwort_eingabe" disable="true" />
       <Button fx:id="login" mnemonicParsing="false" onAction="#checkUser" text="anmelden" />
    </children>
 </VBox>

@@ -48,7 +48,7 @@ public class Controller {
         ResultSet rs;
 
         try {
-            rs =  dbController.getList("SELECT * FROM KUNDE");
+            rs =  dbController.getList("SELECT * FROM SUS_FS191_eschulte.kunden_nr_name");
             while(rs.next()){
                 userListe.add(new User(rs.getString("Vorname"), rs.getString("Nachname"), rs.getString("Kunden_ID")));
             }
@@ -59,7 +59,7 @@ public class Controller {
     }
 
     private Geraet selectedGeraet;
-    private final OracleDB dbController;
+    private OracleDB dbController;
 
     public Controller() {
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -72,7 +72,10 @@ public class Controller {
         termineDerWoche = new Termin[7][20];
         this.geraeteListe = new ArrayList<>();
         selectedGeraet = null;
-        dbController = new OracleDB("SUS_FS191_eschulte", "emily", "oracle.s-atiw.de", "1521", "atiwora");
+    }
+
+    public void connectToDatabase(String user, String password){
+        dbController = new OracleDB(user, password, "oracle.s-atiw.de", "1521", "atiwora");
 
         try {
             dbController.connect();
@@ -83,12 +86,12 @@ public class Controller {
         ResultSet rs;
 
         try {
-           rs =  dbController.getList("SELECT * FROM GERAET");
-           while(rs.next()){
-               this.geraeteListe.add(new Geraet(rs.getString("geraetename"), rs.getString("geraete_id")));
-           }
+            rs =  dbController.getList("SELECT * FROM SUS_FS191_eschulte.GERAET");
+            while(rs.next()){
+                this.geraeteListe.add(new Geraet(rs.getString("geraetename"), rs.getString("geraete_id")));
+            }
             for (Geraet g: geraeteListe
-                 ) {
+            ) {
                 System.out.println(g);
 
             }
@@ -139,9 +142,9 @@ public class Controller {
         try{
             ResultSet terminResults = dbController.getList(
                     "SELECT * " +
-                            "FROM nutzung " +
-                            "JOIN kunde " +
-                            "ON kunde.kunden_id = nutzung.kunden_id " +
+                            "FROM SUS_FS191_eschulte.nutzung " +
+                            "JOIN SUS_FS191_eschulte.kunden_nr_name " +
+                            "ON kunden_nr_name.kunden_id = nutzung.kunden_id " +
                             "WHERE geraete_id = " + selectedGeraet.geraeteID);
 
             while(terminResults.next()){

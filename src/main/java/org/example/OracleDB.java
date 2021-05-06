@@ -56,7 +56,7 @@ public class OracleDB {
     public boolean insertTermin(Termin termin) throws SQLException {
 
         PreparedStatement stat = con.prepareStatement(
-                "INSERT INTO nutzung(kunden_id, geraete_id, datum, anfang, ende) " +
+                "INSERT INTO SUS_FS191_eschulte.nutzung(kunden_id, geraete_id, datum, anfang, ende) " +
                         "VALUES(?,?,TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"'),TO_TIMESTAMP(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"'),TO_TIMESTAMP(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"'))");
         stat.setString(1,termin.benutzer.kundenummer);
         stat.setString(2,termin.ausgewaehltesGeraet.geraeteID);
@@ -71,7 +71,7 @@ public class OracleDB {
     }
     public boolean deleteTermin(Termin termin) throws SQLException{
         PreparedStatement stat = con.prepareStatement(
-                "DELETE FROM nutzung " +
+                "DELETE FROM SUS_FS191_eschulte.nutzung " +
                         "WHERE kunden_id = ? " +
                         "AND geraete_id = ? " +
                         "AND datum = TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') " +
