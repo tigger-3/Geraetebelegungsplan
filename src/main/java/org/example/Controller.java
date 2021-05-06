@@ -233,6 +233,7 @@ public class Controller {
 
     public void selectGeraet(Geraet newSelection){
         selectedGeraet = newSelection; //TODO update termine
+        clearTermine();
         getTermine();
     }
 
