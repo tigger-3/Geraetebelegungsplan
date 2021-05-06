@@ -289,7 +289,7 @@ public class Controller {
                         "DESCRIPTION:" + "Sie haben ein Training auf dem Gerät \"" + termin.ausgewaehltesGeraet.geraetename + "(" + termin.ausgewaehltesGeraet.geraeteID + ")\" gebucht." + "\n" +
                         "CLASS:PUBLIC\n" +
                         "DTSTART;TZID=Europe/Berlin:" + dateFormat.format(Date.from(termin.uhrzeit)) + "\n" +
-                        "DTEND;TZID=Europe/Berlin:" + dateFormat.format(Date.from(termin.endzeit)) + "\n" +
+                        "DTEND;TZID=Europe/Berlin:" + dateFormat.format(Date.from(termin.getEndzeit())) + "\n" +
                         "DTSTAMP:" + dateFormat.format(Date.from(Instant.now())) + "Z\n" +
                         "END:VEVENT\n";
                     termineVorhanden = true;
