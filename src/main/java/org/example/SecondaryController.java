@@ -26,6 +26,8 @@ public class SecondaryController {
     private Menu geraeteMenu;
     @FXML
     private Label kalenderwocheNr;
+    @FXML
+    private Label geraetename;
 
     private final List<MenuItem> geraeteMenuEintraege = new ArrayList<>();
 
@@ -41,6 +43,7 @@ public class SecondaryController {
             eintrag.setText(geraet.geraetename + " (" + geraet.geraeteID + ")");
             eintrag.onActionProperty().setValue((event) -> {
                 App.mainController.selectGeraet(geraet);
+                geraetename.setText(geraet.geraetename + " (" + geraet.geraeteID + ")");
                 updateTermine();
             });
             geraeteMenu.getItems().add(eintrag);

@@ -27,6 +27,8 @@
                  <Label layoutX="464.0" layoutY="13.0" text="Kalenderwoche" />
                  <Label fx:id="kalenderwocheNr" layoutX="498.0" layoutY="26.0" text="00" />
                  <Button layoutX="547.0" layoutY="9.0" mnemonicParsing="false" onAction="#wocheVor" text="-&gt;" />
+               <Label layoutX="14.0" layoutY="15.0" text="Gerät:" />
+               <Label fx:id="geraetename" layoutX="61.0" layoutY="15.0" text="[nicht ausgewählt]" />
              </Pane>
          </top>
          <center>
