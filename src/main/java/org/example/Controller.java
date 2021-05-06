@@ -12,6 +12,9 @@ import java.time.Instant;
 import java.util.*;
 
 public class Controller {
+    public String dbUser = "";
+    public String dbPassword = "";
+
     public Calendar getCalendar() {
         return calendar;
     }
@@ -41,6 +44,10 @@ public class Controller {
 
     public Geraet getSelectedGeraet() {
         return selectedGeraet;
+    }
+
+    public boolean isConnected(){
+        return dbController != null;
     }
 
     public ArrayList<User> getUserListe(){
@@ -75,6 +82,7 @@ public class Controller {
     }
 
     public void connectToDatabase(String user, String password){
+        this.dbUser = user; this.dbPassword = password;
         dbController = new OracleDB(user, password, "oracle.s-atiw.de", "1521", "atiwora");
 
         try {
