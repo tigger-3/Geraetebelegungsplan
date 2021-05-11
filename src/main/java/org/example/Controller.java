@@ -190,7 +190,7 @@ public class Controller {
                                 comparisonDate = calendar.getTime();
                                 for(int j = -1; j < termineDerWoche[i].length && !eingetragen; j++){
                                     if(datum.compareTo(comparisonDate)<0){
-                                        //noinspection IfStatementWithIdenticalBranches
+                                        //Bedingung kann umgekehrt und Anweisung hinter die Schleife verschoben werden
                                         if(j==-1){
                                             eingetragen = true; // before opening time
                                         }
@@ -210,6 +210,7 @@ public class Controller {
                 }
                 catch (IndexOutOfBoundsException e){
                     //ignore - die Datenbankgruppe hat mal wieder Daten eingefügt, mit denen wir nichts anfangen können
+                    //man hätte vielleicht mal Bescheid sagen können :)
                 }
                 calendar.setTime(oldCalendar);
             }
@@ -263,30 +264,32 @@ public class Controller {
     }
 
     @SuppressWarnings("StringConcatenationInLoop")
-    public void kalenderExportieren(){ //Kalenderexport nach RFC5545 - iCalendar
+    public void kalenderExportieren(){
+        //StringBuilder wäre besser gewesen
+        //Kalenderexport nach RFC5545 - iCalendar
         String kalenderString =
-            "BEGIN:VCALENDAR\n" +
-            "VERSION:2.0\n" +
-            //ProdID not used - "PRODID:http://www.example.com/calendarapplication/\n" +
-            "METHOD:PUBLISH\n"
-            //*
-             +
-            "BEGIN:VTIMEZONE\n" +
-            "TZID:Europe/Berlin\n" +
-            "BEGIN:STANDARD\n" +
-            "DTSTART:16011028T030000\n" +
-            "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\n" +
-            "TZOFFSETFROM:+0200\n" +
-            "TZOFFSETTO:+0100\n" +
-            "END:STANDARD\n" +
-            "BEGIN:DAYLIGHT\n" +
-            "DTSTART:16010325T020000\n" +
-            "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\n" +
-            "TZOFFSETFROM:+0100\n" +
-            "TZOFFSETTO:+0200\n" +
-            "END:DAYLIGHT\n" +
-            "END:VTIMEZONE\n"//*/
-            ;
+                "BEGIN:VCALENDAR\n" +
+                        "VERSION:2.0\n" +
+                        //ProdID not used - "PRODID:http://www.example.com/calendarapplication/\n" +
+                        "METHOD:PUBLISH\n"
+                        //*
+                        +
+                        "BEGIN:VTIMEZONE\n" +
+                        "TZID:Europe/Berlin\n" +
+                        "BEGIN:STANDARD\n" +
+                        "DTSTART:16011028T030000\n" +
+                        "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\n" +
+                        "TZOFFSETFROM:+0200\n" +
+                        "TZOFFSETTO:+0100\n" +
+                        "END:STANDARD\n" +
+                        "BEGIN:DAYLIGHT\n" +
+                        "DTSTART:16010325T020000\n" +
+                        "RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\n" +
+                        "TZOFFSETFROM:+0100\n" +
+                        "TZOFFSETTO:+0200\n" +
+                        "END:DAYLIGHT\n" +
+                        "END:VTIMEZONE\n"//*/
+                ;
         //end of starting block
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
         boolean termineVorhanden = false;
@@ -294,23 +297,23 @@ public class Controller {
             for (Termin termin:termineDesTages) {
                 if(termin!=null && isTerminFromCurrentUser(termin)) {
                     kalenderString +=
-                        "BEGIN:VEVENT\n" +
-                        "UID:" + dateFormat.format(Date.from(termin.uhrzeit)) + "Z" + prolongenStringTo(angemeldeterUser.kundenummer,10) + "@FitnessStudio191.com\n" +
-                        //Organizer stays ignored "ORGANIZER:" + "\n" +
-                        "SUMMARY:" + "Training auf " + termin.ausgewaehltesGeraet.geraetename + "\n" +
-                        "DESCRIPTION:" + "Sie haben ein Training auf dem Gerät \"" + termin.ausgewaehltesGeraet.geraetename + "(" + termin.ausgewaehltesGeraet.geraeteID + ")\" gebucht." + "\n" +
-                        "CLASS:PUBLIC\n" +
-                        "DTSTART;TZID=Europe/Berlin:" + dateFormat.format(Date.from(termin.uhrzeit)) + "\n" +
-                        "DTEND;TZID=Europe/Berlin:" + dateFormat.format(Date.from(termin.getEndzeit())) + "\n" +
-                        "DTSTAMP:" + dateFormat.format(Date.from(Instant.now())) + "Z\n" +
-                        "END:VEVENT\n";
+                            "BEGIN:VEVENT\n" +
+                                    "UID:" + dateFormat.format(Date.from(termin.uhrzeit)) + "Z" + prolongenStringTo(angemeldeterUser.kundenummer,10) + "@FitnessStudio191.com\n" +
+                                    //Organizer stays ignored "ORGANIZER:" + "\n" +
+                                    "SUMMARY:" + "Training auf " + termin.ausgewaehltesGeraet.geraetename + "\n" +
+                                    "DESCRIPTION:" + "Sie haben ein Training auf dem Gerät \"" + termin.ausgewaehltesGeraet.geraetename + "(" + termin.ausgewaehltesGeraet.geraeteID + ")\" gebucht." + "\n" +
+                                    "CLASS:PUBLIC\n" +
+                                    "DTSTART;TZID=Europe/Berlin:" + dateFormat.format(Date.from(termin.uhrzeit)) + "\n" +
+                                    "DTEND;TZID=Europe/Berlin:" + dateFormat.format(Date.from(termin.getEndzeit())) + "\n" +
+                                    "DTSTAMP:" + dateFormat.format(Date.from(Instant.now())) + "Z\n" +
+                                    "END:VEVENT\n";
                     termineVorhanden = true;
                 }
             }
         }
         //end of event block
         kalenderString+=
-            "END:VCALENDAR";
+                "END:VCALENDAR";
 
         if(termineVorhanden) { // wenn keine Termine vorhanden sind, geht ein Import schief.
             File outputFile = new File("exports/Export " + dateFormat.format(Date.from(Instant.now())) + ".ics");

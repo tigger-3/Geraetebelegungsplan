@@ -26,11 +26,13 @@ public class PrimaryController {
     private PasswordField dbPasswordField;
 
     @FXML
+    //Name der Methode in Verbindung mit "Anmelden" Knopf bringen, z.B. btnLogin_Click
     private void checkUser() throws IOException {
         if(!App.mainController.isConnected()) {
             App.mainController.connectToDatabase(dbUserField.getText(), dbPasswordField.getText());
         }
 
+        //Besseren Namen wählen
         ArrayList<User> temp = App.mainController.getUserListe();
         String kundennr = kundennr_eingabe.getText();
         for (User u : temp

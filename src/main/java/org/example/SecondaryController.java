@@ -125,6 +125,7 @@ public class SecondaryController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //Besser Benutzer von der Datenbank abmelden (z.B. Methode disconnect/abmelden in der Klasse Controller hinzufügen
         App.mainController.setAngemeldeterUser(null);
     }
 
