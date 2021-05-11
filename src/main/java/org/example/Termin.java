@@ -20,6 +20,7 @@ public class Termin {
         this.benutzer = benutzer;
     }
 
+    //Überflüssig wenn keine Modifizierer vorhanden
     public void setEndzeit(Instant newEndzeit){
         this.endzeit = newEndzeit;
     }

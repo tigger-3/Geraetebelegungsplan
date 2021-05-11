@@ -24,6 +24,7 @@ public class App extends Application {
         stage.show();
     }
 
+    //Kein Zugriffsmodifizierer
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }

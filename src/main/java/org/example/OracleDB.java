@@ -20,9 +20,14 @@ public class OracleDB {
         this.host = host;
         this.port = port;
         this.service = service;
+
+        //Im Connectionstring die Attribute der Klasse verwenden
+
         this.ConnectionString="jdbc:oracle:thin:@(DESCRIPTION="
                 + "(ADDRESS=(PROTOCOL=tcp)(HOST=" + host + ")(PORT=" + port + "))"
                 + "(CONNECT_DATA=(SERVICE_NAME=" + service + ")))";
+
+        //Überflüssig
         con = null;
     }
 
@@ -53,6 +58,8 @@ public class OracleDB {
 
         return befehl.execute(sql);
     }
+
+    //Rückgabewert wird nie verwendet
     public boolean insertTermin(Termin termin) throws SQLException {
 
         PreparedStatement stat = con.prepareStatement(
@@ -66,9 +73,13 @@ public class OracleDB {
 
         return stat.execute();
     }
+
+    //Methode wird nicht verwendet
     public boolean insert(String sql) throws SQLException{
         return send(sql);
     }
+
+    //Rückgabewert wird nie verwendet
     public boolean deleteTermin(Termin termin) throws SQLException{
         PreparedStatement stat = con.prepareStatement(
                 "DELETE FROM SUS_FS191_eschulte.nutzung " +
@@ -79,6 +90,7 @@ public class OracleDB {
                         "AND ende = TO_TIMESTAMP(?, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"') "
         );
 
+        //Duplikat von Zeile 68 (evtl. in eingene Methode auslagern)
         stat.setString(1,termin.benutzer.kundenummer);
         stat.setString(2,termin.ausgewaehltesGeraet.geraeteID);
         stat.setString(3,termin.datum.toInstant().toString());
@@ -87,6 +99,8 @@ public class OracleDB {
 
         return stat.execute();
     }
+
+    //Methode wird nicht verwendet
     public boolean delete(String sql) throws SQLException{
         return send(sql);
     }
